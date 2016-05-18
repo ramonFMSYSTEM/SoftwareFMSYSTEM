@@ -14,7 +14,7 @@ class Dcompra {
     private int IdMateriaPrima;
     private int IdProveedor;
     private int IdUsuario;
-    private int CantidadCompra;
+    private int CantCompra;
     private String FechaCompra;
     private String FechaCaducidad;
     private float IvaCompra;
@@ -36,7 +36,7 @@ class Dcompra {
         this.IdRegistroCompra = IdRegistroCompra;
         this.IdMateriaPrima = IdMateriaPrima;
         this.IdProveedor = IdProveedor;
-        this.CantidadCompra = CantidadCompra;
+        this.CantCompra = CantidadCompra;
         this.FechaCompra = FechaCompra;
         this.FechaCaducidad = FechaCaducidad;
         this.IdUsuario = IdUsuario;
@@ -92,17 +92,17 @@ class Dcompra {
     }
 
     /**
-     * @return the CantidadCompra
+     * @return the CantCompra
      */
-    public int getCantidadCompra() {
-        return CantidadCompra;
+    public int getCantCompra() {
+        return CantCompra;
     }
 
     /**
-     * @param CantidadCompra the CantidadCompra to set
+     * @param CantCompra the CantCompra to set
      */
-    public void setCantidadCompra(int CantidadCompra) {
-        this.CantidadCompra = CantidadCompra;
+    public void setCantCompra(int CantCompra) {
+        this.CantCompra = CantCompra;
     }
 
     /**
