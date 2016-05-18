@@ -31,6 +31,7 @@ public class frmVenta extends javax.swing.JInternalFrame {
         this.setLocation(25, 15);
         txtIdVenta.setEnabled(false);
         dtFechaVenta.setEnabled(false);
+        //inhabilita campo de fecha
         dtFechaVenta.setDisabledTextColor(Color.red);
        //obtiene fecha actual
         dtFechaVenta.setText(fechaactual());
@@ -572,7 +573,7 @@ public static String fechaactual() {
 
     }
 private void btnusuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnusuariosActionPerformed
-// TODO add your handling code here:
+// Abre consulta de usuarios para elegir en venta
     frmConsultaUsuariosV US = new frmConsultaUsuariosV();
     frmInicio.jMenuPantallaInicio.add(US);
     US.toFront();
