@@ -32,6 +32,7 @@ public class frmVenta extends javax.swing.JInternalFrame {
         txtIdVenta.setEnabled(false);
         dtFechaVenta.setEnabled(false);
         dtFechaVenta.setDisabledTextColor(Color.red);
+       //obtiene fecha actual
         dtFechaVenta.setText(fechaactual());
         numeros();
 
