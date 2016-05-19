@@ -801,7 +801,7 @@ private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
             dtsMatPrim.setID(Integer.parseInt(id));
             dtsMatPrim.setProducto((String)(tablaProd1.getValueAt(x, 1)));
             
-            dtsMatPrim.setCantidad(cantidadEnStock-(Integer.parseInt((String)(tablaProd1.getValueAt(x, 2)))));
+            //dtsMatPrim.setCantidad(cantidadEnStock-(Integer.parseInt((String)(tablaProd1.getValueAt(x, 2)))));
             dtsMatPrim.setProveedor((String)(tablaProd1.getValueAt(x, 3)));
             dtsMatPrim.setUnidad_medidad((String)(tablaProd1.getValueAt(x, 4)));
             dtsMatPrim.setCategoria((String)(tablaProd1.getValueAt(x, 5)));
@@ -827,7 +827,12 @@ private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
             dmpp.setIdMateriaPrima(dtsMatPrim.getID());
             //System.out.println("id- "+dmpp.getIdMateriaPrima());
             dmpp.setDescripcionMP(dtsMatPrim.getDescripcion());
-            dmpp.setCantidadMP((Integer.parseInt((String)(tablaProd1.getValueAt(x, 2)))));
+            try {
+                dmpp.setCantidadMP((Integer.parseInt((String)(tablaProd1.getValueAt(x, 2)))));
+            } catch (Exception e) {
+                dmpp.setCantidadMP((Integer)(tablaProd1.getValueAt(x, 2)));
+            }
+            
             
             arrMpp.add(dmpp);
         }
@@ -959,7 +964,8 @@ private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
             
             for(int y=0; y<mppBorrar.size(); y++){
                 DMateriaPrimaEnProductos dmppEliminar = new DMateriaPrimaEnProductos();
-                dmppEliminar.setId(mppBorrar.get(y));
+                dmppEliminar.setIdMateriaPrima(mppBorrar.get(y));
+                dmppEliminar.setIdProducto(txtIDprod.getText());
                 lmpp.eliminar(dmppEliminar);
             }
             JOptionPane.showMessageDialog(null, "Actualizado");

@@ -215,11 +215,12 @@ public class LMateriaPrimaEnProductos {
      
     
       public boolean eliminar(DMateriaPrimaEnProductos dts){
-          sSql="delete from elemento where idelementos=?";
+          sSql="delete from elemento where idproductofinal=? and id=?";
         try {
             
             PreparedStatement pst= cn.prepareStatement(sSql);
-            pst.setInt(1, dts.getId());
+            pst.setString(1, dts.getIdProducto());
+            pst.setInt(2, dts.getIdMateriaPrima());
             
             int n=pst.executeUpdate();
             
