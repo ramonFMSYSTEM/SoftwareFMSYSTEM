@@ -31,9 +31,9 @@ public class Lproducto {
       
             
           
-       String [] titulos= {"ID de producto","Nombre","Descripcion","Precio","Stock"};
+       String [] titulos= {"ID de producto","Categoria","Nombre","Descripcion","Precio","Stock"};
    
-        String [] registros= new String[5];
+        String [] registros= new String[6];
        
        totalregistros=0;
        modelo = new DefaultTableModel(null,titulos);
@@ -46,10 +46,11 @@ public class Lproducto {
       
           
                registros[0]=rs.getString("id_producto");
-               registros[1]=rs.getString("nombre_producto");
-               registros[2]=rs.getString("descripcion_producto");
-               registros[3]=rs.getString("precio_producto");
-               registros[4]=rs.getString("Stock_producto");
+               registros[1]=rs.getString("categoria");
+               registros[2]=rs.getString("nombre_producto");
+               registros[3]=rs.getString("descripcion_producto");
+               registros[4]=rs.getString("precio_producto");
+               registros[5]=rs.getString("Stock_producto");
               
                
                totalregistros=totalregistros+1;
@@ -73,6 +74,7 @@ public class Lproducto {
             ResultSet rs = st.executeQuery(sSQL);
             while(rs.next()){
                 prod.setCodigo(rs.getString("id_producto"));
+                prod.setCategoria(rs.getString("categoria"));
                 prod.setNombre(rs.getString("nombre_producto"));
                 prod.setDescripcion(rs.getString("descripcion_producto"));
                 prod.setPrecio(rs.getString("precio_producto"));
@@ -88,14 +90,15 @@ public class Lproducto {
    }
     public boolean insertar (Dproducto dts){
         
-        sSQL="INSERT INTO producto_final (id_producto,nombre_producto,descripcion_producto,precio_producto,Stock_producto) VALUES (?,?,?,?,?)";
+        sSQL="INSERT INTO producto_final (id_producto,categoria,nombre_producto,descripcion_producto,precio_producto,Stock_producto) VALUES (?,?,?,?,?,?)";
         try {
             PreparedStatement pst  = cn.prepareStatement(sSQL);
             pst.setString(1, dts.getCodigo());
-            pst.setString(2, dts.getNombre());
-            pst.setString(3, dts.getDescripcion());
-            pst.setString(4, dts.getPrecio());
-            pst.setString(5, dts.getStock());
+            pst.setString(2, dts.getCategoria());
+            pst.setString(3, dts.getNombre());
+            pst.setString(4, dts.getDescripcion());
+            pst.setString(5, dts.getPrecio());
+            pst.setString(6, dts.getStock());
             int n=pst.executeUpdate();
             if(n>0){
                
@@ -143,7 +146,7 @@ public class Lproducto {
    }
 */
     public boolean editar(Dproducto dts){
-         sSQL="update producto_final set nombre_producto=?,descripcion_producto=?,precio_producto=? where id_producto=?";
+         sSQL="update producto_final set categoria=?,nombre_producto=?,descripcion_producto=?,precio_producto=? where id_producto=?";
          
          
         try {
@@ -151,10 +154,11 @@ public class Lproducto {
               
             PreparedStatement pst  = cn.prepareStatement(sSQL);
             //pst.setString(1, dts.getCodigo());
-            pst.setString(1, dts.getNombre());
-            pst.setString(2, dts.getDescripcion());
-            pst.setString(3, dts.getPrecio());
-            pst.setString(4, dts.getCodigo());
+            pst.setString(1, dts.getCategoria());
+            pst.setString(2, dts.getNombre());
+            pst.setString(3, dts.getDescripcion());
+            pst.setString(4, dts.getPrecio());
+            pst.setString(5, dts.getCodigo());
             int n=pst.executeUpdate();
             
             

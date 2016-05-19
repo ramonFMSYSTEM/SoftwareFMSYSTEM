@@ -534,6 +534,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtSubtotal">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblIva">
           <Properties>
@@ -541,6 +544,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtIva">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblTotal">
           <Properties>
@@ -548,6 +554,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtTotal">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JTable" name="tbdetalle">
           <Properties>
@@ -636,6 +645,9 @@
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="txtCambio">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btnCalcular">
           <Properties>

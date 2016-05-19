@@ -51,10 +51,10 @@ public class frmConsultaProductosV extends javax.swing.JInternalFrame {
     }
   
     void cargarlistaproductos(String dato){
-        String [] Titulo = {"Id de producto","Nombre","Descripcion","Precio","Stock"};
+        String [] Titulo = {"Id de producto","categoria","Nombre","Descripcion","Precio"};
         tabla=new DefaultTableModel(null,Titulo);
     String []Registro= new String[5];
-    String mostrar="SELECT * FROM producto_final WHERE CONCAT (id_producto, descripcion_producto,nombre_producto, precio_producto) LIKE '%"+dato+"%'"; 
+    String mostrar="SELECT * FROM producto_final WHERE CONCAT (id_producto,categoria,descripcion_producto,nombre_producto, precio_producto) LIKE '%"+dato+"%'"; 
     Statement st;
     
         try {
@@ -63,10 +63,10 @@ public class frmConsultaProductosV extends javax.swing.JInternalFrame {
             while(rs.next())
             {
                 Registro[0]=rs.getString("id_producto");
-                Registro[1]=rs.getString("nombre_producto");
-                Registro[2]=rs.getString("descripcion_producto");
-                Registro[3]=rs.getString("precio_producto");
-                Registro[4]=rs.getString("Stock_producto");
+                Registro[1]=rs.getString("categoria");
+                Registro[2]=rs.getString("nombre_producto");
+                Registro[3]=rs.getString("descripcion_producto");
+                Registro[4]=rs.getString("precio_producto");
                 
                 tabla.addRow(Registro);
             }
@@ -206,13 +206,18 @@ private void mnenviarproActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
          else
           {
           String codins=tablaProd.getValueAt(fila, 0).toString();
-          String nombreins=tablaProd.getValueAt(fila, 1).toString();
+          String nombreins=tablaProd.getValueAt(fila, 2).toString();
          
-          String precioins=tablaProd.getValueAt(fila, 3).toString();
+          String precioins=tablaProd.getValueAt(fila, 4).toString();
           int c=0;
           int j=0;
            String  cant=JOptionPane.showInputDialog("ingrese cantidad");
-         if((cant.equals("")) || (cant.equals("0")))
+              try {
+                  Integer.parseInt(cant);
+              } catch (NumberFormatException e) {
+                  JOptionPane.showMessageDialog(this, "Debe ingresar sólo valores numéricos");
+              }
+         if((cant.equals("0")) || (cant.contains("-")))
          {
              JOptionPane.showMessageDialog(this, "Debe ingresar algun valor mayor que 0");
          }
@@ -234,7 +239,7 @@ private void mnenviarproActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
             if(codins.equals(com))
             {
                 j=i;
-                frmVenta.tablaRealizarVenta.setValueAt(cant, i, 3);
+                frmVenta.tablaRealizarVenta.setValueAt(cant, i, 4);
                 c=c+1;
        
             }
@@ -250,6 +255,8 @@ private void mnenviarproActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
            // dato[2]=descripcionins;
             dato[2]=precioins;
             dato[3]=cant;
+            //int x=(((Integer.parseInt(precioins))*(Integer.parseInt(cant))));
+            dato[4]=""+(((Integer.parseInt(precioins))*(Integer.parseInt(cant))));
             
             tabladet.addRow(dato);
         

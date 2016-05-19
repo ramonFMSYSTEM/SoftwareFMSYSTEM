@@ -15,14 +15,16 @@ import java.util.ArrayList;
 public class Dproducto {
   
     String codigo;
+    String categoria;
     String nombre;
     String descripcion;
     String precio;
     String Stock;
     ArrayList<DMateriaPrimaEnProductos> materiasPrimas;
     
-    public Dproducto(String codigo,String nombre, String descripcion, String precio, String Stock, ArrayList<DMateriaPrimaEnProductos> materiasPrimas) {
+    public Dproducto(String codigo, String categoria, String nombre, String descripcion, String precio, String Stock, ArrayList<DMateriaPrimaEnProductos> materiasPrimas) {
         this.codigo = codigo;
+        this.categoria = categoria;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
@@ -39,6 +41,14 @@ public class Dproducto {
 
     public void setCodigo(String codigo) {
         this.codigo = codigo;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 
     public String getNombre() {
@@ -81,6 +91,5 @@ public class Dproducto {
     public void setMateriasPrimas(ArrayList<DMateriaPrimaEnProductos> materiasPrimas) {
         this.materiasPrimas = materiasPrimas;
     }
-    
     
 }

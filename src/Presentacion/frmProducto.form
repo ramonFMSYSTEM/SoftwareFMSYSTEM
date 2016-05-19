@@ -171,11 +171,11 @@
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="txtIDprod" alignment="0" max="32767" attributes="0"/>
+                      <Component id="txtIDprod" alignment="0" pref="155" max="32767" attributes="0"/>
                       <Component id="txtNmbre" alignment="0" max="32767" attributes="0"/>
                       <Component id="txtDes" alignment="0" max="32767" attributes="0"/>
                       <Component id="txtPre" max="32767" attributes="0"/>
-                      <Component id="txtStock" alignment="0" max="32767" attributes="0"/>
+                      <Component id="cboCategoria" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -205,10 +205,11 @@
                       <Component id="txtPre" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="lblStock" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtStock" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lblStock" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="cboCategoria" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -246,13 +247,8 @@
         </Component>
         <Component class="javax.swing.JLabel" name="lblStock">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Stock:"/>
+            <Property name="text" type="java.lang.String" value="Categor&#xed;a:"/>
           </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="txtStock">
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtStockActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lblNombre">
           <Properties>
@@ -260,6 +256,29 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtNmbre">
+        </Component>
+        <Component class="javax.swing.JComboBox" name="cboCategoria">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="12">
+                <StringItem index="0" value="San Valent&#xed;n"/>
+                <StringItem index="1" value="D&#xed;a de la Madre"/>
+                <StringItem index="2" value="Graduaci&#xf3;n"/>
+                <StringItem index="3" value="Maternidad"/>
+                <StringItem index="4" value="D&#xed;a del padre"/>
+                <StringItem index="5" value="Funeral"/>
+                <StringItem index="6" value="Boda"/>
+                <StringItem index="7" value="Quincea&#xf1;era"/>
+                <StringItem index="8" value="Navidad"/>
+                <StringItem index="9" value="Primaveral"/>
+                <StringItem index="10" value="Cumplea&#xf1;os"/>
+                <StringItem index="11" value="Bautizo"/>
+              </StringArray>
+            </Property>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

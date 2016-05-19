@@ -37,6 +37,7 @@ public class frmVenta extends javax.swing.JInternalFrame {
        //obtiene fecha actual
         dtFechaVenta.setText(fechaactual());
         numeros();
+        btnCalcularCamb.setEnabled(false);
 
     }
 
@@ -324,13 +325,11 @@ public class frmVenta extends javax.swing.JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(lblEmailUs)
-                                    .addComponent(txtEmailUs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(3, 3, 3))
+                                    .addComponent(txtEmailUs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(3, 3, 3)))
-                .addContainerGap())
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(3, 3, 3))
         );
 
         jPanel4.setBackground(new java.awt.Color(204, 204, 255));
@@ -338,9 +337,15 @@ public class frmVenta extends javax.swing.JInternalFrame {
 
         lblSubtotal.setText("SubTotal:");
 
+        txtSubtotal.setEditable(false);
+
         lblIva.setText("IVA:");
 
+        txtIva.setEditable(false);
+
         lblTotal.setText("Total:");
+
+        txtTotal.setEditable(false);
 
         tbdetalle.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -386,6 +391,8 @@ public class frmVenta extends javax.swing.JInternalFrame {
                 txtEfectivoKeyTyped(evt);
             }
         });
+
+        txtCambio.setEditable(false);
 
         btnCalcular.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Cacular1.jpg"))); // NOI18N
         btnCalcular.setText("Calcular total");
@@ -590,6 +597,9 @@ private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
         frmInicio.jMenuPantallaInicio.add(pro);
         pro.toFront();
         pro.setVisible(true);
+        
+        btnCalcular.setEnabled(true);
+        btnCalcularCamb.setEnabled(false);
 
     } catch (Exception e) {
     }
@@ -614,6 +624,9 @@ private void btnCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
         txtSubtotal.setText(Double.toString(total.getSubtotal()));
         txtIva.setText("" + Math.rint(total.getIva() * 100) / 100);
         txtTotal.setText("" + Math.rint(total.getTotal() * 100) / 100);
+        
+        btnCalcularCamb.setEnabled(true);
+        btnCalcular.setEnabled(false);
     }
 
 }//GEN-LAST:event_btnCalcularActionPerformed

@@ -43,12 +43,13 @@ public class frmProducto extends javax.swing.JInternalFrame {
     txtNmbre.setEnabled(false);
     txtDes.setEnabled(false);
     txtPre.setEnabled(false);
-    txtStock.setEnabled(false);
+    //txtStock.setEnabled(false);
     btnGuardar.setEnabled(false);
     btnNuevo.setEnabled(true);
     btnCancelar.setEnabled(false);
     btnModificar.setEnabled(false);
     btnBorrar.setEnabled(false);
+    cboCategoria.setEnabled(false);
     
     }
     void limpiar(){
@@ -56,16 +57,18 @@ public class frmProducto extends javax.swing.JInternalFrame {
     txtNmbre.setText("");
     txtDes.setText("");
     txtPre.setText("");
-    txtStock.setText("");
+    //txtStock.setText("");
     mppBorrar = new ArrayList();
     ((DefaultTableModel)tablaProd1.getModel()).setRowCount(0);
+    cboCategoria.setSelectedIndex(0);
     }
     void desbloquear(){
     //txtIDprod.setEnabled(true);
     txtNmbre.setEnabled(true);
     txtDes.setEnabled(true);
     txtPre.setEnabled(true);
-    txtStock.setEnabled(true);
+    cboCategoria.setEnabled(true);
+    //txtStock.setEnabled(true);
     
     btnGuardar.setEnabled(true);
     btnNuevo.setEnabled(false);
@@ -192,7 +195,8 @@ public class frmProducto extends javax.swing.JInternalFrame {
             txtNmbre.setText(dprod.getNombre());
             txtDes.setText(dprod.getDescripcion());
             txtPre.setText(dprod.getPrecio());
-            txtStock.setText(dprod.getStock());
+            cboCategoria.setSelectedItem(dprod.getCategoria());
+            //txtStock.setText(dprod.getStock());
 
             LMateriaPrimaEnProductos lmpp = new LMateriaPrimaEnProductos();
             dprod.setMateriasPrimas(lmpp.mostrar(dprod.getCodigo()));
@@ -298,9 +302,9 @@ public class frmProducto extends javax.swing.JInternalFrame {
         lblPrecio = new javax.swing.JLabel();
         txtPre = new javax.swing.JTextField();
         lblStock = new javax.swing.JLabel();
-        txtStock = new javax.swing.JTextField();
         lblNombre = new javax.swing.JLabel();
         txtNmbre = new javax.swing.JTextField();
+        cboCategoria = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         btnNuevo = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
@@ -387,15 +391,11 @@ public class frmProducto extends javax.swing.JInternalFrame {
             }
         });
 
-        lblStock.setText("Stock:");
-
-        txtStock.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtStockActionPerformed(evt);
-            }
-        });
+        lblStock.setText("Categoría:");
 
         lblNombre.setText("Nombre:");
+
+        cboCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "San Valentín", "Día de la Madre", "Graduación", "Maternidad", "Día del padre", "Funeral", "Boda", "Quinceañera", "Navidad", "Primaveral", "Cumpleaños", "Bautizo" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -411,11 +411,11 @@ public class frmProducto extends javax.swing.JInternalFrame {
                     .addComponent(lblNombre))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtIDprod)
+                    .addComponent(txtIDprod, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
                     .addComponent(txtNmbre)
                     .addComponent(txtDes)
                     .addComponent(txtPre)
-                    .addComponent(txtStock))
+                    .addComponent(cboCategoria, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -438,9 +438,10 @@ public class frmProducto extends javax.swing.JInternalFrame {
                     .addComponent(lblPrecio)
                     .addComponent(txtPre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblStock)
-                    .addComponent(txtStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(cboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(3, 3, 3))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -845,6 +846,7 @@ private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
         dts.setDescripcion(txtDes.getText());
         dts.setPrecio(txtPre.getText());
         dts.setStock("0");
+        dts.setCategoria(cboCategoria.getItemAt(cboCategoria.getSelectedIndex()));
         dts.setMateriasPrimas(arrMpp);
         
         LMateriaPrimaEnProductos lmpp = new LMateriaPrimaEnProductos();
@@ -945,10 +947,11 @@ private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
      Dproducto dts = new Dproducto();
      Lproducto func = new Lproducto();
      dts.setCodigo(txtIDprod.getText());
+     dts.setCategoria(cboCategoria.getItemAt(cboCategoria.getSelectedIndex()));
      dts.setDescripcion(txtDes.getText());
      dts.setNombre(txtNmbre.getText());
      dts.setPrecio(txtPre.getText());
-     dts.setStock(txtStock.getText());
+     //dts.setStock(txtStock.getText());
      dts.setMateriasPrimas(arrMpp);
      
     LMateriaPrimaEnProductos lmpp = new LMateriaPrimaEnProductos();
@@ -977,10 +980,6 @@ private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
          JOptionPane.showMessageDialog(null, e);
     }
 }//GEN-LAST:event_btnModificarActionPerformed
-
-private void txtStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStockActionPerformed
-// TODO add your handling code here:
-}//GEN-LAST:event_txtStockActionPerformed
 
     private void tablaProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProductosMouseClicked
         // TODO add your handling code here:
@@ -1099,6 +1098,7 @@ private void txtStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JButton btnMostrarTodo;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JButton btnSalir;
+    private javax.swing.JComboBox<String> cboCategoria;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -1128,7 +1128,6 @@ private void txtStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JTextField txtIDprod;
     private javax.swing.JTextField txtNmbre;
     private javax.swing.JTextField txtPre;
-    private javax.swing.JTextField txtStock;
     // End of variables declaration//GEN-END:variables
    conexion cc= new conexion();
    Connection cn=cc.conectar();
