@@ -223,7 +223,7 @@ private void mnenviarproActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
          }
          else
          {
-             //igual a la cantidad solicitada
+             //igual a la cantidad solicitada.
              int canting=Integer.parseInt(cant);
              //recibo lo que hay en sotck
              int comp=Integer.parseInt(comparar(codins));
