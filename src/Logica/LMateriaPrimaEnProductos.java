@@ -111,6 +111,39 @@ public class LMateriaPrimaEnProductos {
    }
     
     
+    public DMateriaPrimaEnProductos buscar(int id){
+       //DefaultTableModel modelo;
+       
+       //String [] titulos= {"ID","ID Producto","ID Materia Prima","Descripcion","Cantidad"};
+   
+       //String[] registro = new String [5];
+       
+      // totalregistros=0;
+       //modelo = new DefaultTableModel(null,titulos);
+       
+       sSql="select * from elemento where idelementos like '%"+ id + "%' order by ID";
+       
+       try {
+           Statement st= cn.createStatement();
+           ResultSet rs=st.executeQuery(sSql);
+           
+            DMateriaPrimaEnProductos mpp = new DMateriaPrimaEnProductos();
+           while(rs.next()){
+               mpp.setId(Integer.parseInt(rs.getString("idelementos")));
+               mpp.setIdProducto(rs.getString("idproductofinal"));
+               mpp.setIdMateriaPrima(Integer.parseInt(rs.getString("ID")));
+               mpp.setDescripcionMP(rs.getString("descripcion"));
+               mpp.setCantidadMP(Integer.parseInt(rs.getString("cantidad")));
+               
+           }
+           return mpp;
+       } catch (Exception e) {
+           JOptionPane.showConfirmDialog(null, e+"/n No se encuentra la materia Prima del producto indicado");
+           return null;
+       }
+   }
+    
+    
     /*
     public DefaultTableModel mostrarMin(String buscar){
        DefaultTableModel modelo;

@@ -78,7 +78,7 @@ public class frmProducto extends javax.swing.JInternalFrame {
      void ocultar_columnas() {
         tablaProductos.getColumnModel().getColumn(0).setMaxWidth(0);
         tablaProductos.getColumnModel().getColumn(0).setMinWidth(0);
-        tablaProductos.getColumnModel().getColumn(0).setPreferredWidth(0);
+        tablaProductos.getColumnModel().getColumn(0).setWidth(0);
         
     }
      
@@ -317,7 +317,6 @@ public class frmProducto extends javax.swing.JInternalFrame {
         btnMostrarTodo = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jScrollPane3 = new javax.swing.JScrollPane();
         tablaProd = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
@@ -549,34 +548,13 @@ public class frmProducto extends javax.swing.JInternalFrame {
 
         tablaProd.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null}
+
             },
             new String [] {
-                "Title 1"
+                "Id", "Material", "Cantidad"
             }
         ));
-        tablaProd.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        tablaProd.setMaximumSize(new java.awt.Dimension(200, 64));
-        tablaProd.setPreferredSize(new java.awt.Dimension(70, 64));
-        jScrollPane3.setViewportView(tablaProd);
-
-        jScrollPane5.setViewportView(jScrollPane3);
+        jScrollPane5.setViewportView(tablaProd);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -1095,7 +1073,7 @@ private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     private void btnEliminarMatPrimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarMatPrimActionPerformed
         // TODO add your handling code here:
         int filasel= tablaProd1.getSelectedRow();
-        
+                
         mppBorrar.add(((Integer)(tablaProd1.getValueAt(filasel, 0))));
                 
         ((DefaultTableModel)tablaProd1.getModel()).removeRow(filasel);
@@ -1122,11 +1100,11 @@ private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblBuscarProd;
     private javax.swing.JLabel lblDescrip;

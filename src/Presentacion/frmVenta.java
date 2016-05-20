@@ -5,9 +5,14 @@ ESTE ES OTRO COMENTARIO CHRISTIAN OLVERA VEANLO CHICOS
  */
 package Presentacion;
 
+import Datos.DMateriaPrimaEnProductos;
 import Datos.DTotal;
+import Datos.DmateriaPrima;
+import Datos.Dproducto;
 import Datos.Dventa;
 import Datos.DventaDetalle;
+import Logica.LMateriaPrima;
+import Logica.LMateriaPrimaEnProductos;
 import Logica.LgenerarNumero;
 import Logica.Lventa;
 import Logica.LventaDetalle;
@@ -15,6 +20,7 @@ import claseConectar.conexion;
 import java.awt.Color;
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -613,17 +619,60 @@ private void txtnomapeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 private void btnCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularActionPerformed
 // TODO add your handling code here: 
 //validacion  DE PRODUCTOS LISTOS PARA REGISTRAR VENTA ,
-    //DESPUES LLAMO METODO CALCULAR PARA HACER OPERACIONES DE LA VENTA 
+//DESPUES LLAMO METODO CALCULAR PARA HACER OPERACIONES DE LA VENTA 
     if (tablaRealizarVenta.getRowCount() < 1) {
         JOptionPane.showMessageDialog(this, "Error, no ingreso ningun producto");
     } else {
        
         Lventa venta = new Lventa();
         DTotal total = venta.CalcularTotal(tablaRealizarVenta);
+        String cadError = "Materia prima insuficiente:\nMat.Prim:\tExistente:\tRequerida:";
         
         txtSubtotal.setText(Double.toString(total.getSubtotal()));
         txtIva.setText("" + Math.rint(total.getIva() * 100) / 100);
         txtTotal.setText("" + Math.rint(total.getTotal() * 100) / 100);
+        
+        //JOptionPane.showMessageDialog(this, "Prueba de numero de lineas \n 2 \n 3 \n 4 \n 5 \n 6 \n 7 \n 8 \n 9 \n10");
+        
+        //ciclo leyendo productos id's (columna 0) y la cantidad (columna 3)
+        //ArrayList<Dproducto> arrProductos = new ArrayList();
+        ArrayList<DMateriaPrimaEnProductos> arrMPP = new ArrayList();
+        LMateriaPrimaEnProductos lmpp = new LMateriaPrimaEnProductos();
+        
+        System.out.println("tablaRealizarVenta="+tablaRealizarVenta.getRowCount());
+        
+        for(int i=0; i<tablaRealizarVenta.getRowCount(); i++){//Productos en la lista de venta
+            Dproducto dprod = new Dproducto();
+            dprod.setCodigo((String)tablaRealizarVenta.getValueAt(i, 0));
+            dprod.setStock((String)tablaRealizarVenta.getValueAt(i, 3));
+            dprod.setMateriasPrimas(lmpp.mostrar(dprod.getCodigo()));
+            
+            for(int j=0; j<dprod.getMateriasPrimas().size(); j++){//materias primas en el producto "j" de la lista
+                boolean mppExists=false;
+                for(int k=0; k<arrMPP.size(); k++){
+                    if(arrMPP.get(k).getId()==dprod.getMateriasPrimas().get(j).getId()){//Si ya esta registrada la mpp en la lista
+                        mppExists=true;
+                        arrMPP.get(k).setCantidadMP(arrMPP.get(k).getCantidadMP()+dprod.getMateriasPrimas().get(j).getCantidadMP()*Integer.parseInt(dprod.getStock()));
+                    }                    
+                }
+                if(!mppExists){//si no está en lista agregarlo
+                    dprod.getMateriasPrimas().get(j).setCantidadMP(dprod.getMateriasPrimas().get(j).getCantidadMP()*Integer.parseInt(dprod.getStock()));
+                    arrMPP.add(dprod.getMateriasPrimas().get(j));
+                }
+            }
+        }
+        
+        for(int x=0; x<arrMPP.size(); x++){
+            LMateriaPrima lmp = new LMateriaPrima();
+            DmateriaPrima mp = lmp.buscar(arrMPP.get(x).getIdMateriaPrima());
+            System.out.println("mp="+mp.getCantidad());
+            System.out.println("arrmp="+arrMPP.get(x).getCantidadMP());
+            if(mp.getCantidad()<arrMPP.get(x).getCantidadMP()){
+                cadError=cadError+"\n"+mp.getProducto()+"\t"+mp.getCantidad()+"\t"+arrMPP.get(x).getCantidadMP();
+            }
+        }
+        
+        //repasar la lista de mpp y comprobar existencia (leer en la bd)
         
         btnCalcularCamb.setEnabled(true);
         btnCalcular.setEnabled(false);
