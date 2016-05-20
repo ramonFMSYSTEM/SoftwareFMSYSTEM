@@ -549,7 +549,23 @@ public class frmProducto extends javax.swing.JInternalFrame {
 
         tablaProd.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null}
             },
             new String [] {
                 "Title 1"

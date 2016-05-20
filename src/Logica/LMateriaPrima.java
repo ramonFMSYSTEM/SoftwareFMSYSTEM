@@ -26,7 +26,7 @@ public class LMateriaPrima {
     private String sSql="";
     
     
-    public DefaultTableModel mostrar(String buscar){
+    public DefaultTableModel mostrarMateriaPrima(String buscar){
        DefaultTableModel modelo;
        
        String [] titulos= {"Categoria","Proveedor","ID","Cantidad","Unidad demedida","Producto","Descripcion","Precio","fecha compra","fecha caducidad"};

@@ -107,7 +107,7 @@ public class frmMateriaPrima extends javax.swing.JInternalFrame {
         try {
             DefaultTableModel modelo;
             LMateriaPrima func = new LMateriaPrima();
-            modelo = func.mostrar(buscar);
+            modelo = func.mostrarMateriaPrima(buscar);
 
             tablaProd.setModel(modelo);
            // ocultar_columnas();
@@ -121,7 +121,7 @@ public class frmMateriaPrima extends javax.swing.JInternalFrame {
         try {
             DefaultTableModel modelo;
             LMateriaPrima func = new LMateriaPrima();
-            modelo = func.mostrar(buscar);
+            modelo = func.mostrarMateriaPrima(buscar);
 
             tablaProd.setModel(modelo);
             ocultar_columnas();
