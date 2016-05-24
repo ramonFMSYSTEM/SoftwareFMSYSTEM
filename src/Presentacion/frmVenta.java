@@ -32,6 +32,7 @@ import javax.swing.table.DefaultTableModel;
  * @author vitela
  */
 public class frmVenta extends javax.swing.JInternalFrame {
+    
 
     public frmVenta() {
         initComponents();
@@ -44,6 +45,7 @@ public class frmVenta extends javax.swing.JInternalFrame {
         dtFechaVenta.setText(fechaactual());
         numeros();
         btnCalcularCamb.setEnabled(false);
+        btnRealizarVenta.setEnabled(false);
 
     }
 
@@ -56,6 +58,8 @@ public class frmVenta extends javax.swing.JInternalFrame {
         txtTotal.setText("");
         txtEfectivo.setText("");
         txtCambio.setText("");
+        btnCalcularCamb.setEnabled(false);
+        btnRealizarVenta.setEnabled(false);
     }
 //    GENERA ID VENTA
 
@@ -376,9 +380,16 @@ public class frmVenta extends javax.swing.JInternalFrame {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jScrollPane2.setViewportView(tablaRealizarVenta);
@@ -626,12 +637,12 @@ private void btnCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
        
         Lventa venta = new Lventa();
         DTotal total = venta.CalcularTotal(tablaRealizarVenta);
-        String cadError = "Materia prima insuficiente:\nMat.Prim:\tExistente:\tRequerida:";
+        String cadError = "";
         
         txtSubtotal.setText(Double.toString(total.getSubtotal()));
         txtIva.setText("" + Math.rint(total.getIva() * 100) / 100);
-        txtTotal.setText("" + Math.rint(total.getTotal() * 100) / 100);
-        
+        txtTotal.setText("" + Math.rint(total.getTotal() * 100) / 100);        
+
         //JOptionPane.showMessageDialog(this, "Prueba de numero de lineas \n 2 \n 3 \n 4 \n 5 \n 6 \n 7 \n 8 \n 9 \n10");
         
         //ciclo leyendo productos id's (columna 0) y la cantidad (columna 3)
@@ -639,43 +650,46 @@ private void btnCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
         ArrayList<DMateriaPrimaEnProductos> arrMPP = new ArrayList();
         LMateriaPrimaEnProductos lmpp = new LMateriaPrimaEnProductos();
         
-        System.out.println("tablaRealizarVenta="+tablaRealizarVenta.getRowCount());
         
         for(int i=0; i<tablaRealizarVenta.getRowCount(); i++){//Productos en la lista de venta
+            int cantidadProducto=0;
             Dproducto dprod = new Dproducto();
             dprod.setCodigo((String)tablaRealizarVenta.getValueAt(i, 0));
-            dprod.setStock((String)tablaRealizarVenta.getValueAt(i, 3));
+            cantidadProducto=Integer.parseInt((String)tablaRealizarVenta.getValueAt(i, 3));
             dprod.setMateriasPrimas(lmpp.mostrar(dprod.getCodigo()));
             
             for(int j=0; j<dprod.getMateriasPrimas().size(); j++){//materias primas en el producto "j" de la lista
                 boolean mppExists=false;
-                for(int k=0; k<arrMPP.size(); k++){
-                    if(arrMPP.get(k).getId()==dprod.getMateriasPrimas().get(j).getId()){//Si ya esta registrada la mpp en la lista
+                for(int k=0; k<arrMPP.size(); k++){//Lista de materias primas encontradas
+                    if(arrMPP.get(k).getIdMateriaPrima()==dprod.getMateriasPrimas().get(j).getIdMateriaPrima()){//Si ya esta registrada la MateriaPrima en la lista
                         mppExists=true;
-                        arrMPP.get(k).setCantidadMP(arrMPP.get(k).getCantidadMP()+dprod.getMateriasPrimas().get(j).getCantidadMP()*Integer.parseInt(dprod.getStock()));
+                        arrMPP.get(k).setCantidadMP(arrMPP.get(k).getCantidadMP()+dprod.getMateriasPrimas().get(j).getCantidadMP()*cantidadProducto);
                     }                    
                 }
-                if(!mppExists){//si no está en lista agregarlo
-                    dprod.getMateriasPrimas().get(j).setCantidadMP(dprod.getMateriasPrimas().get(j).getCantidadMP()*Integer.parseInt(dprod.getStock()));
+                if(!mppExists){//si no está en lista se agrega
+                    dprod.getMateriasPrimas().get(j).setCantidadMP(dprod.getMateriasPrimas().get(j).getCantidadMP()*cantidadProducto);
                     arrMPP.add(dprod.getMateriasPrimas().get(j));
                 }
             }
         }
         
-        for(int x=0; x<arrMPP.size(); x++){
+        for(int x=0; x<arrMPP.size(); x++){//Recorre la lista de materias primas encontradas
             LMateriaPrima lmp = new LMateriaPrima();
-            DmateriaPrima mp = lmp.buscar(arrMPP.get(x).getIdMateriaPrima());
-            System.out.println("mp="+mp.getCantidad());
-            System.out.println("arrmp="+arrMPP.get(x).getCantidadMP());
-            if(mp.getCantidad()<arrMPP.get(x).getCantidadMP()){
-                cadError=cadError+"\n"+mp.getProducto()+"\t"+mp.getCantidad()+"\t"+arrMPP.get(x).getCantidadMP();
+            DmateriaPrima mp = new DmateriaPrima();
+            mp = lmp.buscar(arrMPP.get(x).getIdMateriaPrima());//Buscar la materia prima(x) en BD
+            if(mp.getCantidad()<arrMPP.get(x).getCantidadMP()){//Si la cantidad necesaria es mayor que la existente
+                cadError=cadError+"\n"+mp.getProducto()+"----"+mp.getCantidad()+"----"+arrMPP.get(x).getCantidadMP();
             }
         }
         
+        if(!cadError.equals("")){
+            JOptionPane.showMessageDialog(this, "Materia prima insuficiente:\nMat.Prim:----Existente:----Requerida:"+cadError);
+        }else{
+            btnCalcularCamb.setEnabled(true);
+            btnCalcular.setEnabled(false);
+        }
         //repasar la lista de mpp y comprobar existencia (leer en la bd)
         
-        btnCalcularCamb.setEnabled(true);
-        btnCalcular.setEnabled(false);
     }
 
 }//GEN-LAST:event_btnCalcularActionPerformed
@@ -690,6 +704,59 @@ private void btnRealizarVentaActionPerformed(java.awt.event.ActionEvent evt) {//
     if ((txtidusuario.getText().equals("")) || (txtSubtotal.getText().equals(""))) {
         JOptionPane.showMessageDialog(this, "No ingreso usuario,productos o realice operación");
     } else {
+        
+        //Calculo de materia prima
+        Lventa venta = new Lventa();
+        DTotal total = venta.CalcularTotal(tablaRealizarVenta);
+        String cadError = "";
+        
+        txtSubtotal.setText(Double.toString(total.getSubtotal()));
+        txtIva.setText("" + Math.rint(total.getIva() * 100) / 100);
+        txtTotal.setText("" + Math.rint(total.getTotal() * 100) / 100);        
+
+        //JOptionPane.showMessageDialog(this, "Prueba de numero de lineas \n 2 \n 3 \n 4 \n 5 \n 6 \n 7 \n 8 \n 9 \n10");
+        
+        //ciclo leyendo productos id's (columna 0) y la cantidad (columna 3)
+        //ArrayList<Dproducto> arrProductos = new ArrayList();
+        ArrayList<DMateriaPrimaEnProductos> arrMPP = new ArrayList();
+        LMateriaPrimaEnProductos lmpp = new LMateriaPrimaEnProductos();
+        
+        
+        for(int i=0; i<tablaRealizarVenta.getRowCount(); i++){//Productos en la lista de venta
+            int cantidadProducto=0;
+            Dproducto dprod = new Dproducto();
+            dprod.setCodigo((String)tablaRealizarVenta.getValueAt(i, 0));
+            cantidadProducto=Integer.parseInt((String)tablaRealizarVenta.getValueAt(i, 3));
+            dprod.setMateriasPrimas(lmpp.mostrar(dprod.getCodigo()));
+            
+            for(int j=0; j<dprod.getMateriasPrimas().size(); j++){//materias primas en el producto "j" de la lista
+                boolean mppExists=false;
+                //DMateriaPrimaEnProductos mpp = new DMateriaPrimaEnProductos();
+                //mpp.setId(dprod.getMateriasPrimas().get(j).getIdMateriaPrima());
+                
+                for(int k=0; k<arrMPP.size(); k++){//Lista de materias primas
+                    if(arrMPP.get(k).getIdMateriaPrima()==dprod.getMateriasPrimas().get(j).getIdMateriaPrima()){//Si ya esta registrada la MateriaPrima en la lista
+                        mppExists=true;
+                        arrMPP.get(k).setCantidadMP(arrMPP.get(k).getCantidadMP()+dprod.getMateriasPrimas().get(j).getCantidadMP()*cantidadProducto);
+                    }                    
+                }
+                if(!mppExists){//si no está en lista se agrega
+                    dprod.getMateriasPrimas().get(j).setCantidadMP(dprod.getMateriasPrimas().get(j).getCantidadMP()*cantidadProducto);
+                    arrMPP.add(dprod.getMateriasPrimas().get(j));
+                }
+            }
+        }
+        
+        for(int x=0; x<arrMPP.size(); x++){
+            LMateriaPrima lmp = new LMateriaPrima();
+            DmateriaPrima mp = new DmateriaPrima();
+            mp = lmp.buscar(arrMPP.get(x).getIdMateriaPrima());//obtener materia prima
+            mp.setCantidad(mp.getCantidad()-arrMPP.get(x).getCantidadMP());//restar la materia prima usada
+            lmp.editar(mp);
+            //TODO Agregar las salidas de Materia Prima
+        }
+        // Fin de materia prima
+        
         String idproventa = "", cantproventa = "";
         Dventa dts = new Dventa();
         Lventa func = new Lventa();
@@ -754,6 +821,7 @@ private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     int fila = tablaRealizarVenta.getSelectedRow();
     if (fila >= 0) {
         modelo.removeRow(fila);
+        LimpiarCampos();
     } else {
         JOptionPane.showMessageDialog(null, "Debe Seleccionar fila que desea eliminar");
     }
@@ -781,6 +849,7 @@ private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
         } else {
             Lventa venta=new Lventa();
             txtCambio.setText(venta.CalcularCambio(txtTotal.getText(), txtEfectivo.getText()));
+            btnRealizarVenta.setEnabled(true);
         }
     }//GEN-LAST:event_btnCalcularCambActionPerformed
 
