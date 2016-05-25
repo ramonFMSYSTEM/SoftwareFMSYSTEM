@@ -148,18 +148,14 @@ public class Lusuario {
    
    }
    
-    public DefaultTableModel Login(String Emailu,String Contrasenau) {
-        DefaultTableModel modelo;
+    public Dusuario Login(String Emailu,String Contrasenau) {
+        
+        Dusuario usuario = new Dusuario();
+        usuario.setIdusuario(-1);
 
-        String[] titulos = {"ID", "Nombre", "Apaterno", "Amaterno","Puesto","Email","Clave"};
-
-        String[] registro = new String[7];
-
-        totalregistros = 0;
-        modelo = new DefaultTableModel(null, titulos);
-
-        sSQL = "select  id_usuario,nombre_usuario,apellidop_usuario,apellidom_usuario,puesto_usuario,email_usuario,contraseña_usuario from usuario"
-               + "where email_usuario='" + Emailu + " 'and contraseña_usuario='" + Contrasenau+"'" ;
+        sSQL = "select * from usuario WHERE email_usuario='"+Emailu+" 'and contraseña_usuario='" + Contrasenau+"'";
+        /*sSQL = "select  id_usuario,nombre_usuario,apellidop_usuario,apellidom_usuario,puesto_usuario,email_usuario,contraseña_usuario from usuario"
+               + "where email_usuario='" + Emailu + " 'and contraseña_usuario='" + Contrasenau+"'" ;*/
                 
         
       //  "SELECT * FROM Login Where usuario='"+usuario+"'and password='"+password+"'"
@@ -169,21 +165,19 @@ public class Lusuario {
             ResultSet rs = st.executeQuery(sSQL);
 
             while (rs.next()) {
-                registro[0] = rs.getString("id_usuario");
-                registro[1] = rs.getString("nombre_usuario");
-                registro[2] = rs.getString("apellidop_usuario");
-                registro[3] = rs.getString("apellidom_usuario");
+                usuario.setIdusuario(Integer.parseInt(rs.getString("id_usuario")));
+                usuario.setNombreu(rs.getString("nombre_usuario"));
+                usuario.setApellidopu(rs.getString("apellidop_usuario"));
+                usuario.setApellidomu(rs.getString("apellidom_usuario"));
+                usuario.setDireccionu(rs.getString("direccion_usuario"));
+                usuario.setPuestou(rs.getString("puesto_usuario"));
+                usuario.setTelefonou(rs.getString("tel_usuario"));
+                usuario.setEmailu(rs.getString("email_usuario"));
+                usuario.setContrasenau(rs.getString("contraseña_usuario"));
                 
-                registro[4] = rs.getString("puesto_usuario");
-                registro[5] = rs.getString("email_usuario");
-                registro[6] = rs.getString("contraseña_usuario");
-                
-                
-                totalregistros = totalregistros + 1;
-                modelo.addRow(registro);
 
             }
-            return modelo;
+            return usuario;
 
         } catch (Exception e) {
             JOptionPane.showConfirmDialog(null, e);
